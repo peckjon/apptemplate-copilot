@@ -48,3 +48,9 @@
 - Implement proper error handling for AJAX requests with `.fail()` callbacks
 - Use jQuery selectors and DOM manipulation methods for dynamic content updates
 - Remember to copy updated JavaScript files to `static/js/` directory after changes
+- **Template Configuration**: When using organized directory structure (app/templates/, app/static/), configure Flask app with explicit paths:
+  ```python
+  app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
+  ```
+- **Template Path Issues**: If encountering `jinja2.exceptions.TemplateNotFound`, verify Flask is configured with correct template_folder path
+- **Static Assets**: Ensure static files (CSS, JS, images) are properly configured and accessible via Flask's static_folder setting
