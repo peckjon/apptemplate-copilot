@@ -80,5 +80,14 @@
   [processes]
   app = "gunicorn --bind 0.0.0.0:8080 --workers 2 --timeout 60 app:application"
   ```
+- **Docker Build Optimization**: Use `.dockerignore` to exclude unnecessary files from build context, e.g.:
+  ```ignore
+  # Exclude development files, logs, and cache
+  __pycache__/
+  *.pyc
+  .git/
+  .env
+  logs/
+  ```
 - **Docker Health Checks**: If using HTTP health checks, ensure `curl` is installed in Docker images
 - **Cache Invalidation**: Use `flyctl deploy --no-cache` when Dockerfile changes aren't being picked up
