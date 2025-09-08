@@ -90,4 +90,5 @@
   logs/
   ```
 - **Docker Health Checks**: If using HTTP health checks, ensure `curl` is installed in Docker images
+- **Docker User Permissions**: For non-root users in multi-stage builds: create user first, copy packages to `/home/app/.local`, set ownership with `chown -R app:app`, then switch user. Use `PATH=/home/app/.local/bin:$PATH`. "Permission denied" errors usually mean wrong ownership or PATH.
 - **Cache Invalidation**: Use `flyctl deploy --no-cache` when Dockerfile changes aren't being picked up
