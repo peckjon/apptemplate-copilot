@@ -54,3 +54,31 @@
   ```
 - **Template Path Issues**: If encountering `jinja2.exceptions.TemplateNotFound`, verify Flask is configured with correct template_folder path
 - **Static Assets**: Ensure static files (CSS, JS, images) are properly configured and accessible via Flask's static_folder setting
+
+## Deployment and WSGI Configuration
+- **Module Name Conflicts**: Avoid naming directories the same as your main Python module (e.g., don't have both `app.py` and `app/` directory)
+- **WSGI Application Setup**: For Gunicorn deployment, create a proper WSGI application instance:
+  ```python
+  def create_app(*args, **kwargs):  # Accept optional arguments for WSGI compatibility
+      # ... app configuration
+      return app
+  
+  # Create WSGI application instance
+  application = create_app()
+  ```
+- **Environment Variable Parsing**: Avoid inline comments in .env files that can break parsing:
+  ```bash
+  # BAD: Inline comments can cause parsing errors
+  PAYMENT_AMOUNT=100  # Amount in cents ($1.00)
+  
+  # GOOD: Put comments on separate lines
+  # Amount in cents ($1.00)
+  PAYMENT_AMOUNT=100
+  ```
+- **Fly.io Configuration**: Use explicit process commands in `fly.toml` and reference the WSGI application:
+  ```toml
+  [processes]
+  app = "gunicorn --bind 0.0.0.0:8080 --workers 2 --timeout 60 app:application"
+  ```
+- **Docker Health Checks**: If using HTTP health checks, ensure `curl` is installed in Docker images
+- **Cache Invalidation**: Use `flyctl deploy --no-cache` when Dockerfile changes aren't being picked up
